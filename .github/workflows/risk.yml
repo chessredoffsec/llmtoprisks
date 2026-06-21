@@ -134,7 +134,9 @@ jobs:
               if normalized in [
                   ".github/workflows/risk.yml",
                   "github/workflows/risk.yml",
-                  "./.github/workflows/risk.yml"
+                  "./.github/workflows/risk.yml",
+                  "ai_risk_assessment.py",
+                  "./ai_risk_assessment.py"
               ]:
                   return False
 
@@ -149,13 +151,32 @@ jobs:
               except Exception:
                   return ""
 
-          def add_finding(risk_id, severity, category, file_path, evidence, description):
+          def extract_code_snippet(content, pattern):
+              lines = content.splitlines()
+
+              for index, line in enumerate(lines):
+                  if re.search(pattern, line, re.IGNORECASE):
+                      start = max(index - 1, 0)
+                      end = min(index + 2, len(lines))
+
+                      snippet = []
+                      for i in range(start, end):
+                          clean_line = lines[i].strip().replace("|", "\\|")
+                          snippet.append(f"{i + 1}: {clean_line}")
+
+                      return index + 1, " / ".join(snippet)
+
+              return None, ""
+
+          def add_finding(risk_id, severity, category, file_path, evidence, description, line_number, code_snippet):
               findings.append({
                   "risk": risk_id,
                   "severity": severity,
                   "category": category,
                   "file": str(file_path),
+                  "line": line_number,
                   "evidence": evidence[:300],
+                  "code_snippet": code_snippet[:700],
                   "description": description
               })
 
@@ -177,13 +198,17 @@ jobs:
                   for risk_id, rule in RISK_PATTERNS.items():
                       for pattern in rule["patterns"]:
                           if re.search(pattern, content, re.IGNORECASE):
+                              line_number, code_snippet = extract_code_snippet(content, pattern)
+
                               add_finding(
                                   risk_id=risk_id,
                                   severity=rule["severity"],
                                   category=rule["category"],
                                   file_path=path,
                                   evidence=pattern,
-                                  description=rule["description"]
+                                  description=rule["description"],
+                                  line_number=line_number,
+                                  code_snippet=code_snippet
                               )
                               break
 
@@ -278,10 +303,10 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Findings" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Severidade | Categoria | Risco | Arquivo | Evidência |" >> $GITHUB_STEP_SUMMARY
-            echo "|---|---|---|---|---|" >> $GITHUB_STEP_SUMMARY
+            echo "| Severidade | Categoria | Risco | Arquivo | Linha | Evidência | Trecho de Código |" >> $GITHUB_STEP_SUMMARY
+            echo "|---|---|---|---|---|---|---|" >> $GITHUB_STEP_SUMMARY
 
-            jq -r '.findings[] | "| \(.severity) | \(.category) | \(.risk) | `\(.file)` | `\(.evidence)` |"' ai-risk-assessment-report.json >> $GITHUB_STEP_SUMMARY
+            jq -r '.findings[] | "| \(.severity) | \(.category) | \(.risk) | `\(.file)` | \(.line) | `\(.evidence)` | `\(.code_snippet)` |"' ai-risk-assessment-report.json >> $GITHUB_STEP_SUMMARY
           else
             echo "Relatório não encontrado." >> $GITHUB_STEP_SUMMARY
           fi
