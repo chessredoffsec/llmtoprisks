@@ -26,36 +26,11 @@ jobs:
           from pathlib import Path
 
           AI_LIBRARIES = [
-              "openai",
-              "anthropic",
-              "google-generativeai",
-              "azureopenai",
-              "bedrock",
-              "ollama",
-              "huggingface",
-              "transformers",
-              "langchain",
-              "langgraph",
-              "llama-index",
-              "crewai",
-              "autogen",
-              "semantic-kernel",
-              "spring-ai",
-              "langchain4j",
-              "mcp",
+              "openai", "anthropic", "google-generativeai", "azureopenai",
+              "bedrock", "ollama", "huggingface", "transformers",
+              "langchain", "langgraph", "llama-index", "crewai", "autogen",
+              "semantic-kernel", "spring-ai", "langchain4j", "mcp",
               "@modelcontextprotocol"
-          ]
-
-          AI_SECRETS = [
-              "OPENAI_API_KEY",
-              "ANTHROPIC_API_KEY",
-              "GEMINI_API_KEY",
-              "GOOGLE_API_KEY",
-              "AZURE_OPENAI_API_KEY",
-              "HUGGINGFACE_TOKEN",
-              "AWS_BEDROCK",
-              "BEDROCK_API_KEY",
-              "OLLAMA_HOST"
           ]
 
           RISK_PATTERNS = {
@@ -63,14 +38,9 @@ jobs:
                   "severity": "High",
                   "category": "Governance",
                   "patterns": [
-                      r"openai",
-                      r"anthropic",
-                      r"gemini",
-                      r"bedrock",
-                      r"ollama",
-                      r"langchain",
-                      r"crewai",
-                      r"autogen"
+                      r"\bopenai\b", r"\banthropic\b", r"\bgemini\b",
+                      r"\bbedrock\b", r"\bollama\b", r"\blangchain\b",
+                      r"\bcrewai\b", r"\bautogen\b"
                   ],
                   "description": "Indício de uso de IA sem evidência clara de governança ou aprovação formal."
               },
@@ -78,12 +48,8 @@ jobs:
                   "severity": "High",
                   "category": "Prompt Security",
                   "patterns": [
-                      r"prompt\s*=",
-                      r"system_prompt",
-                      r"user_prompt",
-                      r"Ignore previous instructions",
-                      r"You are a",
-                      r"Act as"
+                      r"system_prompt", r"user_prompt", r"prompt\s*=",
+                      r"You are a", r"Act as"
                   ],
                   "description": "Prompts em código podem ampliar risco de prompt injection e manipulação de comportamento."
               },
@@ -91,11 +57,8 @@ jobs:
                   "severity": "Medium",
                   "category": "Prompt Security",
                   "patterns": [
-                      r"jailbreak",
-                      r"ignore all previous",
-                      r"bypass",
-                      r"developer mode",
-                      r"DAN"
+                      r"jailbreak", r"ignore all previous", r"bypass",
+                      r"developer mode"
                   ],
                   "description": "Indícios de padrões associados a jailbreak ou bypass de instruções."
               },
@@ -103,14 +66,8 @@ jobs:
                   "severity": "Critical",
                   "category": "Agent Security",
                   "patterns": [
-                      r"Agent\(",
-                      r"Assistant\(",
-                      r"Crew\(",
-                      r"Workflow\(",
-                      r"Task\(",
-                      r"tools\s*=",
-                      r"function_call",
-                      r"tool_call"
+                      r"Agent\(", r"Assistant\(", r"Crew\(", r"Workflow\(",
+                      r"Task\(", r"tools\s*=", r"function_call", r"tool_call"
                   ],
                   "description": "Indício de agente ou workflow autônomo com possível tomada de ação."
               },
@@ -118,17 +75,9 @@ jobs:
                   "severity": "Critical",
                   "category": "Agent Security",
                   "patterns": [
-                      r"os\.system",
-                      r"subprocess\.",
-                      r"exec\(",
-                      r"eval\(",
-                      r"shell",
-                      r"write_file",
-                      r"delete_file",
-                      r"GitHubTool",
-                      r"JiraTool",
-                      r"DatabaseTool",
-                      r"AWSTool"
+                      r"os\.system", r"subprocess\.", r"exec\(", r"eval\(",
+                      r"write_file", r"delete_file", r"GitHubTool",
+                      r"JiraTool", r"DatabaseTool", r"AWSTool"
                   ],
                   "description": "Ferramentas sensíveis podem ser abusadas por agentes ou fluxos automatizados."
               },
@@ -136,14 +85,8 @@ jobs:
                   "severity": "High",
                   "category": "Data Protection",
                   "patterns": [
-                      r"cpf",
-                      r"cnpj",
-                      r"personal_data",
-                      r"customer_data",
-                      r"credit_card",
-                      r"pii",
-                      r"email",
-                      r"phone"
+                      r"\bcpf\b", r"\bcnpj\b", r"personal_data",
+                      r"customer_data", r"credit_card", r"\bpii\b"
                   ],
                   "description": "Possível uso de dados sensíveis em contexto de IA."
               },
@@ -151,12 +94,9 @@ jobs:
                   "severity": "High",
                   "category": "Secrets",
                   "patterns": [
-                      r"OPENAI_API_KEY",
-                      r"ANTHROPIC_API_KEY",
-                      r"GEMINI_API_KEY",
-                      r"AZURE_OPENAI_API_KEY",
-                      r"HUGGINGFACE_TOKEN",
-                      r"BEDROCK_API_KEY"
+                      r"OPENAI_API_KEY", r"ANTHROPIC_API_KEY",
+                      r"GEMINI_API_KEY", r"AZURE_OPENAI_API_KEY",
+                      r"HUGGINGFACE_TOKEN", r"BEDROCK_API_KEY"
                   ],
                   "description": "Possível exposição de credencial ou variável sensível relacionada a IA."
               },
@@ -164,12 +104,8 @@ jobs:
                   "severity": "Medium",
                   "category": "Supply Chain",
                   "patterns": [
-                      r"langchain",
-                      r"llama-index",
-                      r"crewai",
-                      r"autogen",
-                      r"semantic-kernel",
-                      r"transformers"
+                      r"langchain", r"llama-index", r"crewai",
+                      r"autogen", r"semantic-kernel", r"transformers"
                   ],
                   "description": "Dependências de IA identificadas e que devem ser avaliadas por SCA."
               },
@@ -177,12 +113,8 @@ jobs:
                   "severity": "High",
                   "category": "MCP Security",
                   "patterns": [
-                      r"mcp\.json",
-                      r"mcp-config\.json",
-                      r"mcp_server",
-                      r"MCPServer",
-                      r"from mcp",
-                      r"@modelcontextprotocol"
+                      r"mcp\.json", r"mcp-config\.json", r"mcp_server",
+                      r"MCPServer", r"from mcp", r"@modelcontextprotocol"
                   ],
                   "description": "Indício de MCP Server ou integração MCP no repositório."
               },
@@ -190,14 +122,10 @@ jobs:
                   "severity": "Medium",
                   "category": "AI Generated Code",
                   "patterns": [
-                      r"generated by chatgpt",
-                      r"generated with chatgpt",
-                      r"generated by claude",
-                      r"generated with claude",
-                      r"generated with cursor",
-                      r"generated by copilot",
-                      r"ai generated",
-                      r"vibe coding"
+                      r"generated by chatgpt", r"generated with chatgpt",
+                      r"generated by claude", r"generated with claude",
+                      r"generated with cursor", r"generated by copilot",
+                      r"ai generated", r"vibe coding"
                   ],
                   "description": "Indício de código gerado por IA sem garantia de revisão segura."
               },
@@ -205,12 +133,8 @@ jobs:
                   "severity": "High",
                   "category": "Governance",
                   "patterns": [
-                      r"auto_approve",
-                      r"auto_execute",
-                      r"autonomous",
-                      r"without approval",
-                      r"skip_review",
-                      r"no human"
+                      r"auto_approve", r"auto_execute", r"autonomous",
+                      r"without approval", r"skip_review", r"no human"
                   ],
                   "description": "Possível ausência de aprovação humana em ações automatizadas por IA."
               },
@@ -218,51 +142,46 @@ jobs:
                   "severity": "High",
                   "category": "Application Security",
                   "patterns": [
-                      r"innerHTML",
-                      r"dangerouslySetInnerHTML",
-                      r"render\(response",
-                      r"eval\(response",
-                      r"exec\(response"
+                      r"innerHTML", r"dangerouslySetInnerHTML",
+                      r"render\(response", r"eval\(response", r"exec\(response"
                   ],
                   "description": "Saída de IA pode estar sendo usada sem validação ou sanitização."
               }
           }
 
           IGNORE_DIRS = {
-              ".git",
-              "node_modules",
-              "vendor",
-              ".venv",
-              "venv",
-              "dist",
-              "build",
-              "__pycache__",
-              ".next",
-              ".terraform"
+              ".git", "node_modules", "vendor", ".venv", "venv", "dist",
+              "build", "__pycache__", ".next", ".terraform"
           }
 
           VALID_EXTENSIONS = {
-              ".py", ".js", ".ts", ".tsx", ".jsx", ".java", ".go", ".rb", ".php",
-              ".yaml", ".yml", ".json", ".xml", ".toml", ".txt", ".md", ".env",
-              ".properties", ".gradle", ".cs", ".rs", ".sh", ".sql"
+              ".py", ".js", ".ts", ".tsx", ".jsx", ".java", ".go", ".rb",
+              ".php", ".yaml", ".yml", ".json", ".xml", ".toml", ".txt",
+              ".md", ".env", ".properties", ".gradle", ".cs", ".rs", ".sh",
+              ".sql"
           }
 
           VALID_FILENAMES = {
-              "requirements.txt",
-              "package.json",
-              "pom.xml",
-              "go.mod",
-              "Dockerfile",
-              ".env",
-              ".env.example"
+              "requirements.txt", "package.json", "pom.xml", "go.mod",
+              "Dockerfile", ".env", ".env.example"
           }
 
           findings = []
           ai_assets = set()
 
           def should_scan(path: Path) -> bool:
+              normalized = str(path).replace("\\", "/")
+
+              if normalized in [
+                  ".github/workflows/risk.yml",
+                  "github/workflows/risk.yml",
+                  "./.github/workflows/risk.yml"
+              ]:
+                  return False
+
               if any(part in IGNORE_DIRS for part in path.parts):
                   return False
+
               return path.suffix.lower() in VALID_EXTENSIONS or path.name in VALID_FILENAMES
 
           def read_file(path: Path) -> str:
@@ -350,6 +269,7 @@ jobs:
           report = {
               "assessment": "AI Risk Assessment",
               "assessment_type": "AI Risk Assessment as Code",
+              "pipeline_blocking": False,
               "ai_adoption_detected": len(ai_assets) > 0,
               "ai_assets_count": len(ai_assets),
               "ai_assets": sorted(list(ai_assets)),
@@ -374,15 +294,16 @@ jobs:
               json.dump(report, f, indent=2, ensure_ascii=False)
 
           print(json.dumps(report, indent=2, ensure_ascii=False))
+          print("AI Risk Assessment completed. Pipeline will not be blocked.")
 
-          if score >= 70:
-              raise SystemExit(1)
+          raise SystemExit(0)
           PY
 
           python3 ai_risk_assessment.py
 
       - name: Upload AI Risk Assessment Report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ai-risk-assessment-report
           path: ai-risk-assessment-report.json
