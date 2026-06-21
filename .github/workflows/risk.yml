@@ -37,114 +37,73 @@ jobs:
               "AIR-001 Shadow AI": {
                   "severity": "High",
                   "category": "Governance",
-                  "patterns": [
-                      r"\bopenai\b", r"\banthropic\b", r"\bgemini\b",
-                      r"\bbedrock\b", r"\bollama\b", r"\blangchain\b",
-                      r"\bcrewai\b", r"\bautogen\b"
-                  ],
+                  "patterns": [r"\bopenai\b", r"\banthropic\b", r"\bgemini\b", r"\bbedrock\b", r"\bollama\b", r"\blangchain\b", r"\bcrewai\b", r"\bautogen\b"],
                   "description": "Indício de uso de IA sem evidência clara de governança ou aprovação formal."
               },
               "AIR-002 Prompt Injection": {
                   "severity": "High",
                   "category": "Prompt Security",
-                  "patterns": [
-                      r"system_prompt", r"user_prompt", r"prompt\s*=",
-                      r"You are a", r"Act as"
-                  ],
+                  "patterns": [r"system_prompt", r"user_prompt", r"prompt\s*=", r"You are a", r"Act as"],
                   "description": "Prompts em código podem ampliar risco de prompt injection e manipulação de comportamento."
               },
               "AIR-003 Jailbreak Exposure": {
                   "severity": "Medium",
                   "category": "Prompt Security",
-                  "patterns": [
-                      r"jailbreak", r"ignore all previous", r"bypass",
-                      r"developer mode"
-                  ],
+                  "patterns": [r"jailbreak", r"ignore all previous", r"bypass", r"developer mode"],
                   "description": "Indícios de padrões associados a jailbreak ou bypass de instruções."
               },
               "AIR-004 Excessive Agency": {
                   "severity": "Critical",
                   "category": "Agent Security",
-                  "patterns": [
-                      r"Agent\(", r"Assistant\(", r"Crew\(", r"Workflow\(",
-                      r"Task\(", r"tools\s*=", r"function_call", r"tool_call"
-                  ],
+                  "patterns": [r"Agent\(", r"Assistant\(", r"Crew\(", r"Workflow\(", r"Task\(", r"tools\s*=", r"function_call", r"tool_call"],
                   "description": "Indício de agente ou workflow autônomo com possível tomada de ação."
               },
               "AIR-005 Tool Abuse": {
                   "severity": "Critical",
                   "category": "Agent Security",
-                  "patterns": [
-                      r"os\.system", r"subprocess\.", r"exec\(", r"eval\(",
-                      r"write_file", r"delete_file", r"GitHubTool",
-                      r"JiraTool", r"DatabaseTool", r"AWSTool"
-                  ],
+                  "patterns": [r"os\.system", r"subprocess\.", r"exec\(", r"eval\(", r"write_file", r"delete_file", r"GitHubTool", r"JiraTool", r"DatabaseTool", r"AWSTool"],
                   "description": "Ferramentas sensíveis podem ser abusadas por agentes ou fluxos automatizados."
               },
               "AIR-006 Data Leakage": {
                   "severity": "High",
                   "category": "Data Protection",
-                  "patterns": [
-                      r"\bcpf\b", r"\bcnpj\b", r"personal_data",
-                      r"customer_data", r"credit_card", r"\bpii\b"
-                  ],
+                  "patterns": [r"\bcpf\b", r"\bcnpj\b", r"personal_data", r"customer_data", r"credit_card", r"\bpii\b"],
                   "description": "Possível uso de dados sensíveis em contexto de IA."
               },
               "AIR-007 AI Secrets Exposure": {
                   "severity": "High",
                   "category": "Secrets",
-                  "patterns": [
-                      r"OPENAI_API_KEY", r"ANTHROPIC_API_KEY",
-                      r"GEMINI_API_KEY", r"AZURE_OPENAI_API_KEY",
-                      r"HUGGINGFACE_TOKEN", r"BEDROCK_API_KEY"
-                  ],
+                  "patterns": [r"OPENAI_API_KEY", r"ANTHROPIC_API_KEY", r"GEMINI_API_KEY", r"AZURE_OPENAI_API_KEY", r"HUGGINGFACE_TOKEN", r"BEDROCK_API_KEY"],
                   "description": "Possível exposição de credencial ou variável sensível relacionada a IA."
               },
               "AIR-008 Vulnerable AI Dependencies": {
                   "severity": "Medium",
                   "category": "Supply Chain",
-                  "patterns": [
-                      r"langchain", r"llama-index", r"crewai",
-                      r"autogen", r"semantic-kernel", r"transformers"
-                  ],
+                  "patterns": [r"langchain", r"llama-index", r"crewai", r"autogen", r"semantic-kernel", r"transformers"],
                   "description": "Dependências de IA identificadas e que devem ser avaliadas por SCA."
               },
               "AIR-009 MCP Server Exposure": {
                   "severity": "High",
                   "category": "MCP Security",
-                  "patterns": [
-                      r"mcp\.json", r"mcp-config\.json", r"mcp_server",
-                      r"MCPServer", r"from mcp", r"@modelcontextprotocol"
-                  ],
+                  "patterns": [r"mcp\.json", r"mcp-config\.json", r"mcp_server", r"MCPServer", r"from mcp", r"@modelcontextprotocol"],
                   "description": "Indício de MCP Server ou integração MCP no repositório."
               },
               "AIR-010 Vibe Coding Risk": {
                   "severity": "Medium",
                   "category": "AI Generated Code",
-                  "patterns": [
-                      r"generated by chatgpt", r"generated with chatgpt",
-                      r"generated by claude", r"generated with claude",
-                      r"generated with cursor", r"generated by copilot",
-                      r"ai generated", r"vibe coding"
-                  ],
+                  "patterns": [r"generated by chatgpt", r"generated with chatgpt", r"generated by claude", r"generated with claude", r"generated with cursor", r"generated by copilot", r"ai generated", r"vibe coding"],
                   "description": "Indício de código gerado por IA sem garantia de revisão segura."
               },
               "AIR-011 Lack of Human Oversight": {
                   "severity": "High",
                   "category": "Governance",
-                  "patterns": [
-                      r"auto_approve", r"auto_execute", r"autonomous",
-                      r"without approval", r"skip_review", r"no human"
-                  ],
+                  "patterns": [r"auto_approve", r"auto_execute", r"autonomous", r"without approval", r"skip_review", r"no human"],
                   "description": "Possível ausência de aprovação humana em ações automatizadas por IA."
               },
               "AIR-012 Insecure Output Handling": {
                   "severity": "High",
                   "category": "Application Security",
-                  "patterns": [
-                      r"innerHTML", r"dangerouslySetInnerHTML",
-                      r"render\(response", r"eval\(response", r"exec\(response"
-                  ],
+                  "patterns": [r"innerHTML", r"dangerouslySetInnerHTML", r"render\(response", r"eval\(response", r"exec\(response"],
                   "description": "Saída de IA pode estar sendo usada sem validação ou sanitização."
               }
           }
@@ -295,11 +254,37 @@ jobs:
 
           print(json.dumps(report, indent=2, ensure_ascii=False))
           print("AI Risk Assessment completed. Pipeline will not be blocked.")
-
           raise SystemExit(0)
           PY
 
           python3 ai_risk_assessment.py
+
+      - name: Show AI Risk Assessment Summary
+        shell: bash
+        if: always()
+        run: |
+          echo "## AI Risk Assessment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f ai-risk-assessment-report.json ]; then
+            echo "| Campo | Valor |" >> $GITHUB_STEP_SUMMARY
+            echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+            echo "| AI Adoption Detected | $(jq -r '.ai_adoption_detected' ai-risk-assessment-report.json) |" >> $GITHUB_STEP_SUMMARY
+            echo "| AI Assets Count | $(jq -r '.ai_assets_count' ai-risk-assessment-report.json) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Risk Score | $(jq -r '.risk_score' ai-risk-assessment-report.json) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Risk Level | $(jq -r '.risk_level' ai-risk-assessment-report.json) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Findings Count | $(jq -r '.findings_count' ai-risk-assessment-report.json) |" >> $GITHUB_STEP_SUMMARY
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Findings" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Severidade | Categoria | Risco | Arquivo | Evidência |" >> $GITHUB_STEP_SUMMARY
+            echo "|---|---|---|---|---|" >> $GITHUB_STEP_SUMMARY
+
+            jq -r '.findings[] | "| \(.severity) | \(.category) | \(.risk) | `\(.file)` | `\(.evidence)` |"' ai-risk-assessment-report.json >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Relatório não encontrado." >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Upload AI Risk Assessment Report
         uses: actions/upload-artifact@v4
